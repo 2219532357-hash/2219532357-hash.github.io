@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f7fb">
+<title>智能体开发期末模拟试卷</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#202938;--muted:#687386;--line:#e5e9f0;--accent:#315ee8;--soft:#edf2ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+header{background:linear-gradient(135deg,#243b82,#426be8);color:#fff;padding:36px 18px 30px}header .wrap,main{max-width:900px;margin:auto}h1{font-size:clamp(25px,5vw,36px);line-height:1.25;margin:0 0 12px}.sub{opacity:.9}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.chip{border:1px solid #ffffff66;border-radius:99px;padding:4px 11px;font-size:13px}
+main{padding:22px 14px 60px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.btn{border:0;border-radius:10px;padding:10px 15px;background:var(--accent);color:white;font-weight:600;cursor:pointer}.btn.secondary{background:#e8edfa;color:#2949a7}.progress{background:#fff;border:1px solid var(--line);padding:14px 16px;border-radius:14px;margin-bottom:20px}.bar{height:8px;background:#e9edf5;border-radius:20px;overflow:hidden;margin-top:8px}.bar span{display:block;height:100%;width:0;background:#20a36b;transition:width .2s}
+section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:18px 0;box-shadow:0 3px 12px #17264a08}.section-title{font-size:21px;margin:0 0 5px}.hint{color:var(--muted);font-size:14px;margin:0 0 18px}.q{padding:15px 0;border-top:1px solid var(--line)}.q:first-of-type{border-top:0}.q strong{display:block;margin-bottom:9px}.option{display:flex;align-items:flex-start;gap:9px;padding:5px 2px;cursor:pointer}.option input{margin-top:7px;accent-color:var(--accent)}textarea{width:100%;min-height:92px;border:1px solid #d8deea;border-radius:10px;padding:11px;font:inherit;resize:vertical;background:#fff}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#111827;color:#e5e7eb;padding:15px;border-radius:10px;font:13px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;overflow:auto}.code-answer{min-height:190px}.foot{color:var(--muted);font-size:13px;text-align:center;padding:25px 10px}
+@media(max-width:600px){header{padding:28px 16px}section{padding:16px}.toolbar .btn{flex:1}}
+@media print{body{background:white}header{background:white;color:#111;padding:10px 0}.toolbar,.progress{display:none}section{box-shadow:none;break-inside:avoid}textarea{border:1px solid #aaa} }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>《智能体开发》期末模拟试卷</h1>
+<div class="sub">按选择题、判断题、情境问答、程序分析、编程五种题型组织</div>
+<div class="chips"><span class="chip">四星、五星重点</span><span class="chip">满分 100 分</span><span class="chip">可离线使用</span></div>
+</div></header>
+<main>
+<div class="toolbar">
+<button class="btn" onclick="window.print()">打印 / 保存为 PDF</button>
+<button class="btn secondary" onclick="clearAnswers()">清空所有答案</button>
+<button class="btn secondary" onclick="downloadAnswers()">导出我的答案</button>
+</div>
+<div class="progress"><b>答题进度：<span id="done">0</span> / 36 小题</b><div class="bar"><span id="bar"></span></div><small class="hint">选择题、判断题选择选项后自动计入进度；主观题填写内容后计入进度。</small></div>
+
+<section><h2 class="section-title">一、单项选择题</h2><p class="hint">20题，每题2分，共40分。每题只有一个正确答案。</p>
+<div id="choice"></div></section>
+<section><h2 class="section-title">二、判断题</h2><p class="hint">10题，每题1分，共10分。正确写√，错误写×。</p>
+<div id="judge"></div></section>
+<section><h2 class="section-title">三、情境问答题</h2><p class="hint">3题，共24分。建议用自己的话组织答案。</p>
+<div id="case"></div></section>
+<section><h2 class="section-title">四、程序分析题</h2><p class="hint">2题，共16分。根据代码回答问题。</p>
+<div id="analysis"></div></section>
+<section><h2 class="section-title">五、编程题</h2><p class="hint">1题，共10分。请在下方编辑区完成代码。</p>
+<div id="coding"></div></section>
+<div class="foot">本页面为本地静态网页，不需要登录或联网。答案只保存在当前页面中；导出后可保存为文本文件。</div>
+</main>
+<script>
+const choices=[
+["关于智能体（Agent），下列说法正确的是？",["智能体只能回答固定的问题","智能体能够感知环境、规划任务并调用工具完成目标","智能体只能使用本地模型","智能体不需要任何输入"]],
+["RAG技术的主要作用是什么？",["提高计算机运行速度","替代所有大语言模型","检索外部知识并结合上下文生成答案","自动修改数据库"]],
+["在RAG系统中，Embedding的主要作用是什么？",["将文本转换为向量","将文本转换为图片","对文本进行加密","删除重复文本"]],
+["ChromaDB主要用于什么？",["存储图片","存储和检索向量数据","编写Python程序","运行操作系统"]],
+["RAG系统中，文档切分（Chunking）的主要目的是什么？",["删除所有无用文档","将文档分成较小的文本块，方便检索","将文档转换为Python代码","减少模型参数量"]],
+["LangChain中的PromptTemplate主要用于什么？",["创建数据库","管理操作系统","构建和格式化提示词模板","训练大语言模型"]],
+["LangChain中，init_chat_model主要用于什么？",["初始化聊天模型","创建向量数据库","创建文件夹","删除聊天记录"]],
+["LangChain中的create_agent主要用于什么？",["创建普通文本文件","创建能够根据任务自主调用工具的智能体","创建数据库表","生成网页图片"]],
+["在Agent中，Tool（工具）的主要作用是什么？",["让模型只能回答固定问题","为智能体提供执行具体任务的能力","删除模型的记忆","替代所有提示词"]],
+["ReAct模式中的Thought、Action、Observation分别表示什么？",["思考、行动、观察","训练、测试、部署","输入、输出、删除","查询、修改、保存"]],
+["Function Calling的主要作用是什么？",["让模型直接修改自己的参数","让模型根据需要选择并调用预定义函数","让模型自动创建操作系统","让模型不再需要工具"]],
+["Tool Calling执行流程中，工具真正被执行通常发生在什么阶段？",["用户输入问题之前","模型生成工具调用请求之后，由执行程序调用工具","模型加载之前","系统关闭之后"]],
+["MCP协议的主要作用是什么？",["提高电脑硬件性能","统一AI模型与外部工具、数据资源之间的连接方式","替代Python语言","专门用于训练大模型"]],
+["MCP架构中，Server主要负责什么？",["提供工具和资源等能力","负责用户输入","代替大语言模型进行训练","管理电脑硬件"]],
+["LangGraph中的State主要用于什么？",["保存工作流执行过程中的状态数据","保存电脑系统文件","训练大语言模型","创建网页"]],
+["LangGraph中的Node表示什么？",["工作流中的执行节点，负责完成具体任务","数据库中的用户账号","大语言模型的参数","Python安装包"]],
+["LangGraph中的Edge主要用于什么？",["存储文本","连接节点，定义工作流的执行方向","删除状态数据","创建模型"]],
+["LangGraph中的条件边（Conditional Edge）主要用于什么？",["固定执行所有节点","根据条件决定下一步执行哪个节点","删除工作流","自动训练模型"]],
+["智能体中的Memory主要解决什么问题？",["让模型记住对话或用户的相关信息","提高显示器分辨率","删除历史对话","替代所有数据库"]],
+["在智能体开发中，如果模型回答没有依据的内容，最合理的处理方式是什么？",["让模型随意生成","不进行任何处理","使用知识检索、提示词约束和无依据拒答机制","删除所有工具"]]
+];
+const judges=[
+"RAG可以通过检索外部知识库，为大语言模型提供额外的上下文信息。",
+"Embedding的作用是将文本转换成向量，方便计算文本之间的相似度。",
+"ChromaDB只能存储普通文本，不能进行向量检索。",
+"Agent与普通聊天机器人完全相同，都只能根据输入直接生成答案。",
+"Function Calling意味着模型可以不经过程序执行，直接完成所有外部操作。",
+"MCP可以帮助智能体以统一的方式连接外部工具和资源。",
+"LangGraph中的State可以在不同节点之间传递和更新。",
+"LangGraph中的条件边可以根据当前状态决定下一步执行路径。",
+"长期记忆可以帮助智能体在不同会话之间保存和读取用户偏好。",
+"在智能体开发中，工具执行失败时不需要进行错误处理。"
+];
+const cases=[
+["1. RAG知识库问答系统（8分）","某银行准备开发一个智能客服系统，用户可以询问银行的营业时间、业务办理规则和账户相关问题。",["（1）为什么该系统需要使用RAG技术？","（2）请简述RAG系统的基本执行流程。","（3）Embedding在该系统中发挥什么作用？","（4）如果知识库中没有用户询问的信息，系统应该如何处理？"]],
+["2. Agent工具调用（8分）","某银行准备开发一个智能体，用户可以询问账户余额、查询交易记录。智能体可以调用 query_balance() 查询账户余额，调用 query_transactions() 查询交易记录。",["（1）为什么需要给智能体提供工具？","（2）用户询问账户余额时，智能体应该执行什么操作？","（3）工具调用完成后，结果如何返回给用户？","（4）如果工具执行失败，应该如何处理？"]],
+["3. LangGraph工作流（8分）","某高校准备开发一个校园综合服务大厅智能体，需要根据学生的问题自动分配处理节点：宿舍问题进入宿舍节点；选课问题进入选课节点；校园卡问题进入校园卡节点；其他问题进入通用节点。",["（1）State的作用是什么？","（2）Node的作用是什么？","（3）Edge的作用是什么？","（4）如何实现根据用户问题自动选择不同的处理节点？"]]
+];
+function questionHTML(q,i,kind){let id=kind+i;return `<div class="q" data-id="${id}"><strong>${i+1}. ${q[0]}</strong>${q[1].map((o,j)=>`<label class="option"><input type="radio" name="${id}" value="${"ABCD"[j]}" onchange="updateProgress()"> <span>${"ABCD"[j]}. ${o}</span></label>`).join("")}</div>`}
+document.getElementById("choice").innerHTML=choices.map((q,i)=>questionHTML(q,i,"c")).join("");
+document.getElementById("judge").innerHTML=judges.map((q,i)=>`<div class="q" data-id="j${i}"><strong>${i+1}. ${q}</strong><label class="option"><input type="radio" name="j${i}" value="√" onchange="updateProgress()"> √（正确）</label><label class="option"><input type="radio" name="j${i}" value="×" onchange="updateProgress()"> ×（错误）</label></div>`).join("");
+document.getElementById("case").innerHTML=cases.map((c,i)=>`<div class="q" data-id="case${i}"><strong>${c[0]}</strong><p>${c[1]}</p>${c[2].map((x,j)=>`<p>${x}</p>`).join("")}<textarea placeholder="在这里填写本题答案……" oninput="updateProgress()"></textarea></div>`).join("");
+document.getElementById("analysis").innerHTML=`
+<div class="q" data-id="a0"><strong>1. LangChain工具调用程序分析（8分）</strong><pre>from langchain.tools import tool
+from langchain.agents import create_agent
+
+@tool
+def add(a: int, b: int) -> int:
+    """计算两个数字的和"""
+    return a + b
+
+agent = create_agent(
+    model="deepseek-chat",
+    tools=[add],
+    system_prompt="你是一个计算助手"
+)
+
+result = agent.invoke({
+    "messages": [
+        {"role": "user", "content": "计算10加20"}
+    ]
+})
+
+print(result)</pre><p>（1）@tool的作用是什么？</p><p>（2）add函数实现了什么功能？</p><p>（3）tools=[add]表示什么？</p><p>（4）agent.invoke()的作用是什么？</p><textarea placeholder="填写第1题答案……" oninput="updateProgress()"></textarea></div>
+<div class="q" data-id="a1"><strong>2. LangGraph程序分析（8分）</strong><pre>from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+
+class State(TypedDict):
+    question: str
+    answer: str
+
+def process(state: State):
+    return {
+        "answer": "这是处理后的答案"
+    }
+
+builder = StateGraph(State)
+builder.add_node("process", process)
+builder.add_edge(START, "process")
+builder.add_edge("process", END)
+graph = builder.compile()
+
+result = graph.invoke({
+    "question": "你好"
+})
+print(result)</pre><p>（1）TypedDict的作用是什么？</p><p>（2）StateGraph(State)的作用是什么？</p><p>（3）add_node()的作用是什么？</p><p>（4）compile()和invoke()分别有什么作用？</p><textarea placeholder="填写第2题答案……" oninput="updateProgress()"></textarea></div>`;
+document.getElementById("coding").innerHTML=`<div class="q" data-id="coding"><strong>编程题：实现一个简单的LangGraph校园问题分类工作流（10分）</strong><p>要求：1. 使用TypedDict定义状态State，包含question和answer两个字段。<br>2. 创建分类节点classify。<br>3. 包含“宿舍”或“寝室”，回答“这是宿舍问题”；包含“选课”或“考试”，回答“这是教务问题”；其他问题回答“这是其他问题”。<br>4. 使用StateGraph创建工作流。<br>5. 添加节点和边。<br>6. 编译工作流并调用，输出最终结果。</p><textarea class="code-answer" placeholder="在这里编写完整Python代码……" oninput="updateProgress()"></textarea></div>`;
+function updateProgress(){let total=36,done=0;document.querySelectorAll('input[type=radio]:checked').forEach(()=>done++);document.querySelectorAll('textarea').forEach(t=>{if(t.value.trim())done++});document.getElementById("done").textContent=done;document.getElementById("bar").style.width=(done/total*100)+"%"}
+function clearAnswers(){if(!confirm("确定清空所有作答内容吗？"))return;document.querySelectorAll('input[type=radio]').forEach(x=>x.checked=false);document.querySelectorAll('textarea').forEach(x=>x.value="");updateProgress()}
+function downloadAnswers(){let out=["《智能体开发》期末模拟试卷——我的答案",""];document.querySelectorAll(".q").forEach((q,i)=>{let title=q.querySelector("strong")?.innerText||`题目${i+1}`;let selected=q.querySelector('input[type=radio]:checked');let ta=q.querySelector("textarea");let answer=selected?selected.value:(ta?.value.trim()||"未作答");out.push(title,answer,"");});let blob=new Blob([out.join("\n")],{type:"text/plain;charset=utf-8"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="智能体开发模拟试卷-我的答案.txt";a.click();URL.revokeObjectURL(a.href)}
+updateProgress();
+</script>
+</body></html>
